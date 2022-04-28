@@ -12,53 +12,27 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 function getSeason(data) {
-
   throw new NotImplementedError('Not implemented');
-  if(data == undefined){
-    return 'Unable to determine the time of year!';
-  } 
+  try {
+    if(data === undefined) return 'Unable to determine the time of year!';
 
-  if (isNaN(data.getTime())) {
-    throw new Error("Invalid Date!")
-  }
-  
-  if (Object.prototype.toString.call(data) === "[object Date]") {
-    // it is a date
-    if (isNaN(data.getTime())) {
-      throw new Error("Invalid Date!")
-    } else {
-      // date object is valid
+    let month = data.getMonth();
+
+    if(month < 1 || month ===1){
+      return 'winter';
     }
-  } else {
-    throw new Error("Invalid Date!")
-  }
-
-  let ch = data.getMonth();
-  switch (ch) {
-    case 0:
-      return 'winter';
-    case 1:
-      return 'winter';
-    case 2:
+    else if (month < 5){
       return 'spring';
-    case 3:
-      return 'spring'
-    case 4:
-      return 'spring'
-    case 5:
+    }
+    else if (month < 8){
       return 'summer';
-    case 6:
-      return 'summer';
-    case 7:
-      return 'summer';
-    case 8:
+    }
+    else if (month < 11){
       return 'autumn';
-    case 9:
-      return 'autumn';
-    case 10:
-      return 'autumn';
-    default:
-      return 'winter';
+    }
+  }
+  catch(error){
+    throw new Error("Invalid date!");
   }
 }
 
