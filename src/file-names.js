@@ -16,28 +16,28 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function renameFiles(names) {
-  throw new NotImplementedError('Not implemented');
-  let stack1 = [];
+  // throw new NotImplementedError('Not implemented');
+  let stack = [];
   let stack2 = [];
-  for(let i=0;i<names.length; i++){
-    let x = names[i];
-    stack1.push(x);
-    if(!stack2.includes(x)){
-      stack2.push(x);
-    }
-    else {
-      let k = 0;
-      stack1.forEach(item => {
-        if(item == x){
-          k++;
-        }
-      })
-      if(k>1){
-        stack2.push(x + `(${k-1})`);
+  let stack3 = [];
+  for(let i=0; i< names.length; i++){
+    stack2.push(names[i]);
+    if(stack.includes(names[i])){
+      let k = stack2.filter(item => item == names[i]).length;
+      stack3.push(names[i] + `(${k-1})`);
+      if(stack3.includes(names[i])){
+        let n = stack2.filter(item => item == names[i]).length;
+        stack.push(names[i] + `(${n})`);
+      }
+      else {
+        stack.push(names[i] + `(${k-1})`);
       }
     }
+    else {
+      stack.push(names[i]);
+    }
   }
-  return stack2;
+  return stack;
 }
 
 module.exports = {
