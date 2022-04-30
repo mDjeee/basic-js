@@ -20,13 +20,88 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(directCode = true){
+    this._reverseCode = !directCode;
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  encrypt(string,key) {
+    // throw new NotImplementedError('Not implemented');
+    if(string === undefined || key === undefined){
+      throw new Error("Incorrect arguments!")
+    }
+    string.trim("");
+    key.trim("");
+    key = key.toUpperCase();
+    string = string.toUpperCase();
+    let arr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+    let arrStr = string.split("");
+    let keyStr = [];
+    let res = [];
+    let k = 0;
+    for(let i=0; i<arrStr.length; i++){
+      if(arr.includes(arrStr[i])){
+        keyStr.push(key[k]);
+        k++;
+      }
+      else {
+        keyStr.push(" ");
+      }
+      if(k>=key.length){
+        k=0;
+      }
+    }
+    for(let i=0; i<arrStr.length; i++){
+      if(arr.includes(arrStr[i])){
+        let index = arr.indexOf(arrStr[i]) + arr.indexOf(keyStr[i]);
+        if(index>=26){
+          index = index - 26;
+        }
+        res.push(arr[index]);
+      }
+      else {
+        res.push(arrStr[i]);
+      }
+    }
+    return this._reverseCode ? res.reverse().join("") : res.join("");
+  }
+  decrypt(string,key) {
+    if(string === undefined || key === undefined){
+      throw new Error("Incorrect arguments!")
+    }
+    // throw new NotImplementedError('Not implemented');
+    string.trim("");
+    key.trim("");
+    key = key.toUpperCase();
+    string = string.toUpperCase();
+    let arr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+    let arrStr = string.split("");
+    let keyStr = [];
+    let res = [];
+    let k = 0;
+    for(let i=0; i<arrStr.length; i++){
+      if(arr.includes(arrStr[i])){
+        keyStr.push(key[k]);
+        k++;
+      }
+      else {
+        keyStr.push(" ");
+      }
+      if(k>=key.length){
+        k=0;
+      }
+    }
+    for(let i=0; i<arrStr.length; i++){
+      if(arr.includes(arrStr[i])){
+        let index = arr.indexOf(arrStr[i]) - arr.indexOf(keyStr[i]);
+        if(index < 0){
+          index = index + 26;
+        }
+        res.push(arr[index]);
+      }
+      else {
+        res.push(arrStr[i]);
+      }
+    }
+    return this._reverseCode ? res.reverse().join("") : res.join("");
   }
 }
 
